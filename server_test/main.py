@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI
 
 from server_test.models import ModelName
@@ -79,3 +80,7 @@ async def read_item_id(item_id: str, q: str | None = None, short: bool = False):
 @app.post("/items/")
 async def create_item(item: Item):
     items[item.name] = item
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
