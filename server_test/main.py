@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from server_test.models import ModelName
+from server_test.models.requests import Item
 
 items = {}
 
@@ -73,3 +74,8 @@ async def read_item_id(item_id: str, q: str | None = None, short: bool = False):
             {"description": "This is an amazing item hat has long description"}
         )
     return item
+
+
+@app.post("/items/")
+async def create_item(item: Item):
+    items[item.name] = item
