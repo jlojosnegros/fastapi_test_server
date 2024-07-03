@@ -50,7 +50,12 @@ async def read_items(skip: int = 0, limit: int = 10):
     return fake_items_db[skip: skip + limit]
 
 @app.get("/items_str/{item_id}")
-async def read_item_id(item_id: str, q: str | None = None):
+async def read_item_id(item_id: str, q: str | None = None, short: bool = False):
+    item = {"item_id": item_id}
     if q:
-        return {"item_id": item_id, "q": q}
-    return {"item_id": item_id}
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an amazing item hat has long description"}
+        )
+    return item
