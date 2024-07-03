@@ -4,6 +4,9 @@ from server_test.models import ModelName
 
 app = FastAPI()
 
+fake_items_db = [{"item_name": "Foo"}, {
+    "item_name": "Bar"}, {"item_name": "Baz"}]
+
 
 @app.get("/")
 async def main_route():
@@ -40,3 +43,8 @@ async def get_model(model_name: ModelName.ModelName):
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
     return {"file_path": file_path}
+
+
+@app.get("/items/")
+async def read_items(skip: int = 0, limit: int = 10):
+    return fake_items_db[skip: skip + limit]
