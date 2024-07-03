@@ -1,8 +1,22 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
 from server_test.models import ModelName
 
-app = FastAPI()
+items = {}
+
+
+@asynccontextmanager
+async def lifespan(app : FastAPI):
+    print("entrando")
+    items["foo"] = {"name": "Fighters"}
+    items["bar"] = {"name": "Tenders"}
+
+    yield
+    print("saliendo")
+
+app = FastAPI(lifespan=lifespan)
 
 fake_items_db = [{"item_name": "Foo"}, {
     "item_name": "Bar"}, {"item_name": "Baz"}]
